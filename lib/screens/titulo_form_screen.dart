@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'seleccion_tipo_screen.dart';
 import 'retroalimentacion_screen.dart';
 import 'notificaciones_screen.dart';
-import 'estado_tramite_screen.dart'; // ✅ IMPORTACIÓN NECESARIA
+import 'estado_tramite_screen.dart';
 
 class TituloFormScreen extends StatefulWidget {
   @override
@@ -16,6 +16,11 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _temaController = TextEditingController();
   final _resumenController = TextEditingController();
+  final _nombreController = TextEditingController();
+  final _matriculaController = TextEditingController();
+  final _carreraController = TextEditingController();
+  final _semestreController = TextEditingController();
+
   bool _mostrarAcciones = false;
   double progreso = 0.2;
   bool mostrarRetroalimentacion = false;
@@ -43,21 +48,20 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
     if (_formKey.currentState!.validate()) {
       if (archivoAdjunto == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('⚠️ Debe adjuntar un documento antes de enviar.')),
+          SnackBar(content: Text('⚠️ No se adjuntó ningún archivo. Continuando...')),
         );
-        return;
       }
 
       try {
         await FirebaseFirestore.instance.collection('solicitudes_titulo').add({
           'tema': _temaController.text,
           'resumen': _resumenController.text,
-          'nombre': 'Juan Pérez',
-          'matricula': '20231234',
-          'carrera': 'Educación Inicial',
-          'semestre': 'VI',
+          'nombre': _nombreController.text,
+          'matricula': _matriculaController.text,
+          'carrera': _carreraController.text,
+          'semestre': _semestreController.text,
           'fecha_envio': DateTime.now(),
-          'archivo': archivoAdjunto,
+          'archivo': archivoAdjunto ?? '',
         });
 
         setState(() {
@@ -70,7 +74,21 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
           SnackBar(content: Text('✅ Solicitud enviada correctamente')),
         );
 
+        // 🚀 Redirigir automáticamente a EstadoTramiteScreen tras 2 segundos
+        Future.delayed(Duration(seconds: 2), () {
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EstadoTramiteScreen(
+                archivoAdjunto: archivoAdjunto ?? 'Documento.pdf',
+              ),
+            ),
+          );
+        });
+
         Future.delayed(Duration(seconds: 30), () {
+          if (!mounted) return;
           setState(() {
             progreso = 1.0;
             mostrarRetroalimentacion = true;
@@ -118,6 +136,17 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
   }
 
   @override
+  void dispose() {
+    _temaController.dispose();
+    _resumenController.dispose();
+    _nombreController.dispose();
+    _matriculaController.dispose();
+    _carreraController.dispose();
+    _semestreController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -137,6 +166,34 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
               key: _formKey,
               child: Column(
                 children: [
+                  Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextFormField(
+                    controller: _nombreController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                  ),
+                  SizedBox(height: 16),
+                  Text('Matrícula', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextFormField(
+                    controller: _matriculaController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                  ),
+                  SizedBox(height: 16),
+                  Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextFormField(
+                    controller: _carreraController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                  ),
+                  SizedBox(height: 16),
+                  Text('Semestre', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextFormField(
+                    controller: _semestreController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                  ),
+                  SizedBox(height: 16),
                   Text('Tema', style: TextStyle(fontWeight: FontWeight.bold)),
                   TextFormField(
                     controller: _temaController,
@@ -230,4 +287,3 @@ class _TituloFormScreenState extends State<TituloFormScreen> {
     );
   }
 }
-

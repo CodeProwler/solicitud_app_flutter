@@ -82,9 +82,9 @@ class _LicenciaFormScreenState extends State<LicenciaFormScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Datos del Estudiante", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text("Nombre: Juan Pérez"),
-                  Text("Matrícula: 20231234"),
-                  Text("Carrera: Educación Inicial"),
+                  Text("Nombre: Harold Izquierdo"),
+                  Text("Código: 20231234"),
+                  Text("Carrera: Ingeniería de Sistemas"),
                   Text("Semestre: VI"),
                   SizedBox(height: 16),
                   Text("Motivo de la Solicitud", style: TextStyle(fontWeight: FontWeight.bold)),
