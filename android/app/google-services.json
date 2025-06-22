@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "445226646837",
+    "project_id": "solicitudapp-9ef15",
+    "storage_bucket": "solicitudapp-9ef15.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445226646837:android:dbf2ddf545d904c76b207c",
+        "android_client_info": {
+          "package_name": "com.example.solicitud_app_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB78lUuEZW-bQ-jVd000fyaJwSm1EI2vS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
