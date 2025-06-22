@@ -4,7 +4,11 @@ import 'screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Inicializa Firebase
+  try {
+    await Firebase.initializeApp(); // Inicializa Firebase correctamente
+  } catch (e) {
+    print('Error al inicializar Firebase: $e');
+  }
   runApp(SolicitudApp());
 }
 

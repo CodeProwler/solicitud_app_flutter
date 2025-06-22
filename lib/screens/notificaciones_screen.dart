@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 
 class NotificacionesScreen extends StatelessWidget {
-  final List<String> notificaciones = [
-    "Se le asignó el profesor X",
-    "La fecha de sustentación tiene plazo hasta el 30/07",
-    "Ya está habilitado el módulo de retroalimentación",
-    "Su asesor publicó la primera revisión del trabajo",
-  ];
+  final List<String> notificaciones;
+
+  NotificacionesScreen({required this.notificaciones});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Notificaciones')),
-      body: ListView.builder(
-        itemCount: notificaciones.length,
-        itemBuilder: (context, index) => ListTile(
-          leading: Icon(Icons.notifications),
-          title: Text(notificaciones[index]),
-        ),
-      ),
+      body: notificaciones.isEmpty
+          ? Center(child: Text('No hay notificaciones aún.'))
+          : ListView.builder(
+              itemCount: notificaciones.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    leading: Icon(Icons.notifications),
+                    title: Text(
+                      notificaciones[index],
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

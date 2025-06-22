@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'licencia_form_screen.dart';
 import 'titulo_inicio_screen.dart';
+import 'notificaciones_screen.dart'; // Asegúrate de tener esta pantalla creada
 
 class SeleccionTipoScreen extends StatelessWidget {
   @override
@@ -9,6 +10,25 @@ class SeleccionTipoScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Seleccionar tipo de solicitud'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications_none),
+            tooltip: 'Notificaciones',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => NotificacionesScreen(
+                    notificaciones: [
+                      "✅ Se le asignará un asesor pronto, se le informará a detalle por correo.",
+                      "📊 El estado de su solicitud está en un 20%.",
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
